@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="tripo-styles.css">
+  <title>PolyPort 3D · Tripo Studio</title>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="brand-mark" aria-hidden="true">P</div>
+      <div>
+        <p class="brand-kicker">YOUR 3D WORKBENCH</p>
+        <h1>PolyPort 3D</h1>
+        <p>Tripo Studio · Find, preview and save</p>
+      </div>
+    </header>
+
+    <section id="status" class="status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span id="statusText">Open a model in Tripo Studio</span>
+    </section>
+
+    <section class="steps" id="steps">
+      <div class="steps-title">Quick start</div>
+      <ol>
+        <li>Open a model in Tripo Studio.</li>
+        <li>Wait for the 3D viewer to finish loading.</li>
+        <li>Loaded model resources are detected automatically. If needed, select Find models in viewer.</li>
+        <li>Choose a file, format and size.</li>
+      </ol>
+    </section>
+
+    <button id="scanViewer" class="primary-button" type="button">
+      <span aria-hidden="true">⌕</span> Find models in viewer
+    </button>
+    <p class="hint">Capture and conversion happen locally in this tab. PolyPort adds no usage quotas.</p>
+
+    <section id="inlinePreview" class="inline-preview" aria-label="Automatic Tripo viewer preview">
+      <div class="inline-preview-heading"><span>LIVE VIEWER PREVIEW</span><span class="preview-live-dot" aria-hidden="true"></span></div>
+      <img id="inlinePreviewImage" alt="Automatic snapshot of the current Tripo viewer" hidden>
+      <p id="inlinePreviewMessage" class="inline-preview-message">Capturing the current viewer…</p>
+    </section>
+
+    <section class="models-section">
+      <div class="section-heading">
+        <h2 id="modelsTitle">Detected models</h2>
+        <button id="refresh" class="icon-button" type="button" title="Refresh list" aria-label="Refresh list">↻</button>
+      </div>
+      <div id="models" class="models-list"></div>
+      <p id="emptyState" class="empty-state">No downloadable files yet. Open a model and wait for it to load, or select Find models in viewer.</p>
+    </section>
+
+    <footer class="app-footer">
+      <span>Files are processed locally on your device.</span>
+      <a class="kofi-link" href="https://ko-fi.com/poleroso" target="_blank" rel="noopener noreferrer">
+        <span class="kofi-heart" aria-hidden="true">♥</span>
+        <span class="kofi-copy"><strong>Support PolyPort on Ko-fi</strong><small>Help keep this independent project growing</small></span>
+        <span class="support-arrow" aria-hidden="true">↗</span>
+      </a>
+    </footer>
+  </main>
+
+  <div id="dialog" class="dialog-backdrop" hidden>
+    <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">PREPARE FILE</p>
+          <h2 id="dialogTitle">Download model</h2>
+        </div>
+        <button id="closeDialog" class="icon-button close-button" type="button" aria-label="Close">×</button>
+      </div>
+      <p id="modelSummary" class="model-summary"></p>
+      <label class="field-label" for="filename">File name
+        <input id="filename" type="text" maxlength="120" autocomplete="off">
+      </label>
+      <label class="field-label" for="format">Format
+        <select id="format">
+          <option value="original">Captured original file</option>
+          <option value="stl">Binary STL · 3D printing</option>
+        </select>
+      </label>
+      <div id="stlOptions" class="stl-options" hidden>
+        <label class="field-label" for="heightPreset">Final height
+          <select id="heightPreset">
+            <option value="25">25 mm preset</option>
+            <option value="28">28 mm preset</option>
+            <option value="40" selected>40 mm preset</option>
+            <option value="42">42 mm preset</option>
+            <option value="55">55 mm preset</option>
+            <option value="80">80 mm preset</option>
+            <option value="custom">Custom size</option>
+          </select>
+        </label>
+        <label id="customHeightWrap" class="field-label inline-field" for="customHeight" hidden>
+          Custom height <span class="input-with-unit"><input id="customHeight" type="number" value="40" min="0.1" max="100000" step="any"><span>mm</span></span>
+        </label>
+        <label id="partWrap" class="field-label" for="partSelect" hidden>
+          Model part
+          <select id="partSelect"><option value="all">Full model</option></select>
+        </label>
+        <p class="small-note">STL contains geometry only. Download the original GLB to keep textures.</p>
+      </div>
+      <p id="dialogError" class="dialog-error" hidden></p>
+      <div class="dialog-actions">
+        <button id="cancel" class="secondary-button" type="button">Cancel</button>
+        <button id="download" class="primary-button" type="button">Download</button>
+      </div>
+    </section>
+  </div>
+  <div id="previewDialog" class="dialog-backdrop" hidden>
+    <section class="dialog preview-dialog" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">VIEWER SNAPSHOT</p>
+          <h2 id="previewTitle">Preview</h2>
+        </div>
+        <button id="closePreview" class="icon-button close-button" type="button" aria-label="Close preview">×</button>
+      </div>
+      <p id="previewModelName" class="model-summary"></p>
+      <div class="preview-image-frame">
+      <img id="previewImage" alt="Preview of the model in the viewer" hidden>
+        <p id="previewMessage" class="preview-message">Capturing the current view…</p>
+      </div>
+      <p class="small-note">Snapshot of the model currently visible in Tripo Studio.</p>
+    </section>
+  </div>
+  <script src="tripo-popup.js"></script>
+</body>
+</html>

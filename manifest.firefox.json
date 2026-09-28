@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "PolyPort 3D — Meshy + Tripo Companion",
+  "version": "1.0.5",
+  "description": "A single 3D model workbench for Meshy and Tripo Studio.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "downloads",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://api.meshy.ai/*",
+    "https://meshy.ai/*",
+    "https://www.meshy.ai/*",
+    "https://assets.meshy.ai/*",
+    "https://studio.tripo3d.ai/*"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://meshy.ai/*", "https://www.meshy.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://meshy.ai/*", "https://www.meshy.ai/*"],
+      "js": ["main_world.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://studio.tripo3d.ai/*"],
+      "js": ["tripo/main_world.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://studio.tripo3d.ai/*"],
+      "js": ["tripo/meshopt_decoder.js", "tripo/content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "PolyPort 3D"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "polyport3d@poleroso",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  }
+}
